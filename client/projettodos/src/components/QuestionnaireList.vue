@@ -1,3 +1,22 @@
+<script>
+import { defineEmits } from 'vue'
+
+const emit = defineEmits(['createForm'])
+
+export default {
+  props: ["questionnaires"],
+  methods: {
+    editQuestionnaire(questionnaire) {
+    },
+    deleteQuestionnaire(questionnaireId) {
+    },
+    showCreateForm() {
+
+    },
+  },
+};
+</script>
+
 <template>
   <div>
     <h2>Liste des questionnaires</h2>
@@ -10,23 +29,6 @@
         </button>
       </li>
     </ul>
-    <button @click="showCreateForm">Nouveau questionnaire</button>
+    <button @click="emit('createForm')">Créer un questionnaire</button>
   </div>
 </template>
-
-<script>
-export default {
-  props: ["questionnaires"],
-  methods: {
-    editQuestionnaire(questionnaire) {
-      // Logique pour modifier un questionnaire
-    },
-    deleteQuestionnaire(questionnaireId) {
-      // Logique pour supprimer un questionnaire
-    },
-    showCreateForm() {
-      // Afficher le formulaire de création de questionnaire
-    },
-  },
-};
-</script>

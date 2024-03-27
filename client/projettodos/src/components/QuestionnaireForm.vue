@@ -1,17 +1,16 @@
 <template>
   <div>
-    <h2>{{ formTitle }}</h2>
+    <h2>Création d'un questionnaire</h2>
     <form @submit.prevent="submitForm">
       <label for="title">Titre:</label>
-      <input type="text" v-model="formData.title" required />
-      <button type="submit">{{ submitButtonText }}</button>
+      <input v-model="text" placeholder="Titre" required />
+      <button type="submit">Créer un questionnaire</button>
     </form>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["formData", "formTitle", "submitButtonText"],
   methods: {
     submitForm() {
       // Logique pour soumettre le formulaire
