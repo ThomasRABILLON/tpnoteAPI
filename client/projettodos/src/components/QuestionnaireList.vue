@@ -1,22 +1,4 @@
-<script>
-import { defineEmits } from 'vue'
-
-const emit = defineEmits(['createForm'])
-
-export default {
-  props: ["questionnaires"],
-  methods: {
-    editQuestionnaire(questionnaire) {
-    },
-    deleteQuestionnaire(questionnaireId) {
-    },
-    showCreateForm() {
-
-    },
-  },
-};
-</script>
-
+// QuestionnaireList.vue
 <template>
   <div>
     <h2>Liste des questionnaires</h2>
@@ -29,6 +11,29 @@ export default {
         </button>
       </li>
     </ul>
-    <button @click="emit('createForm')">Créer un questionnaire</button>
+    <button @click="goToCreateForm()">Créer un questionnaire</button>
   </div>
 </template>
+
+<script>
+import { useRouter } from "vue-router";
+
+export default {
+  props: ["questionnaires"],
+  setup() {
+    const router = useRouter();
+
+    const editQuestionnaire = () => {
+      /* Logique pour modifier le questionnaire */
+    };
+    const deleteQuestionnaire = () => {
+      /* Logique pour supprimer le questionnaire */
+    };
+    const goToCreateForm = () => {
+      router.push("/create-questionnaire");
+    };
+
+    return { editQuestionnaire, deleteQuestionnaire, goToCreateForm };
+  },
+};
+</script>
