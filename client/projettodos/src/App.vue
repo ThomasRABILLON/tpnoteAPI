@@ -5,15 +5,13 @@
 </template>
 
 <script setup>
-import {
-  getAllQuestionnaires,
-  getQuestionnaire,
-  createQuestionnaire,
-  updateQuestionnaire,
-  deleteQuestionnaire,
-} from "./services/Questionnaire.js";
+import QuestionnaireProvider from './models/provider/QuestionnaireProvider'
 
-const q = deleteQuestionnaire(5);
+const questionnaire1 = await QuestionnaireProvider.getQuestionnaireById(2)
+const questionnaire2 = await QuestionnaireProvider.getQuestionnaireById(3)
+
+console.log(questionnaire1)
+console.log(questionnaire2)
 </script>
 
 <style scoped>

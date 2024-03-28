@@ -34,6 +34,7 @@ export const updateQuestionnaire = async (id, name) => {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify({ name }),
     };
