@@ -26,16 +26,26 @@
             :id="'response-' + responseIndex"
             required
           />
+          <button
+            type="button"
+            @click="deleteResponse(question, responseIndex)"
+          >
+            Supprimer
+          </button>
         </div>
 
         <button type="button" @click="addResponse(question)">
           Ajouter une réponse
+        </button>
+        <button type="button" @click="deleteQuestion(questionIndex)">
+          Supprimer la question
         </button>
       </div>
 
       <button type="button" @click="addQuestion">Ajouter une question</button>
       <button type="submit">Créer un questionnaire</button>
     </form>
+    <button @click="goToHome()">Revenir en arrière</button>
   </div>
 </template>
 
@@ -65,10 +75,17 @@ export default {
     addResponse(question) {
       question.responses.push("");
     },
+    deleteQuestion(questionIndex) {
+      this.questions.splice(questionIndex, 1);
+    },
+    deleteResponse(question, responseIndex) {
+      question.responses.splice(responseIndex, 1);
+    },
+    goToHome() {
+      this.$router.push("/");
+    },
   },
 };
 </script>
 
-<style scoped>
-/* Vos styles ici */
-</style>
+<style scoped></style>

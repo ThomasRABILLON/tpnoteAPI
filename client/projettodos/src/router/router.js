@@ -2,6 +2,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import QuestionnaireForm from "../components/QuestionnaireForm.vue";
 import QuestionnaireList from "../components/QuestionnaireList.vue";
+import Questionnaire from "../components/QuestionnaireItem.vue";
+import Question from "../components/QuestionForm.vue";
+import ModifyQuestionnaire from "../components/ModifQuestionnaire.vue";
 
 const routes = [
   {
@@ -13,6 +16,21 @@ const routes = [
     path: "/create-questionnaire",
     name: "CreateQuestionnaire",
     component: QuestionnaireForm,
+  },
+  {
+    path: "/questionnaire/:id",
+    name: "Questionnaire",
+    component: Questionnaire,
+  },
+  {
+    path: "/question",
+    name: "Question",
+    component: Question,
+  },
+  {
+    path: "/ModifyQuestionnaire/:id",
+    name: "ModifyQuestionnaire",
+    component: ModifyQuestionnaire,
   },
 ];
 
