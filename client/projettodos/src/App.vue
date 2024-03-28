@@ -1,6 +1,6 @@
 <template>
   <div>
-    <QuestionnaireList @response="(msg) => console.log(msg)" />
+    <router-view></router-view>
   </div>
 </template>
 
@@ -12,7 +12,6 @@ const questionnaire2 = await QuestionnaireProvider.getQuestionnaireById(3)
 
 console.log(questionnaire1)
 console.log(questionnaire2)
-
 </script>
 
 <style scoped>
