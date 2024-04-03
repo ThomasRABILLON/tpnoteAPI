@@ -5,15 +5,7 @@
 </template>
 
 <script setup>
-import {
-  getAllQuestionnaires,
-  getQuestionnaire,
-  createQuestionnaire,
-  updateQuestionnaire,
-  deleteQuestionnaire,
-} from "./services/Questionnaire.js";
 
-const q = deleteQuestionnaire(5);
 </script>
 
 <style scoped>

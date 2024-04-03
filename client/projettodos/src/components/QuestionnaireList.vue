@@ -9,13 +9,13 @@
             {{ question.title }}
           </li>
         </ul>
-        <button @click="editQuestionnaire(questionnaire)">Modifier</button>
+        <button @click="editQuestionnaire(questionnaire.id)">Modifier</button>
         <button @click="deleteQuestionnaire(questionnaire.id)">
           Supprimer
         </button>
       </li>
     </ul>
-    <button @click="goToCreateForm()">Créer un questionnaire</button>
+    <button @click="goToCreateForm">Créer un questionnaire</button>
   </div>
 </template>
 
@@ -28,11 +28,23 @@ const requete = "http://127.0.0.1:5000/api/questionnaires";
 const questionnaires = ref([]);
 const router = useRouter();
 
-const editQuestionnaire = () => {
-  /* Logique pour modifier le questionnaire */
+const editQuestionnaire = (id) => {
+  router.push(`/edit-questionnaire/${id}`);
 };
-const deleteQuestionnaire = () => {
-  /* Logique pour supprimer le questionnaire */
+const deleteQuestionnaire = async (id) => {
+  try {
+    const response = await fetch(`${requete}/${id}`, {
+      method: "DELETE"
+    });
+    if (response.ok) {
+      // Supprimer le questionnaire de la liste
+      questionnaires.value = questionnaires.value.filter(questionnaire => questionnaire.id !== id);
+    } else {
+      console.error("Erreur lors de la suppression du questionnaire :", response.statusText);
+    }
+  } catch (error) {
+    console.error("Erreur lors de la suppression du questionnaire :", error);
+  }
 };
 const goToCreateForm = () => {
   router.push("/create-questionnaire");
@@ -42,25 +54,26 @@ const goToCreateForm = () => {
 const loadQuestionnaires = async () => {
   try {
     const response = await fetch(requete);
+    if (!response.ok) {
+      throw new Error("La requête pour charger les questionnaires a échoué");
+    }
+
     const data = await response.json();
-    questionnaires.value = data.map((questionnaire) => ({
-      ...questionnaire,
-      questions: [], // Initialisation des questions à un tableau vide
-    }));
-    // Chargement des questions associées à chaque questionnaire
-    await Promise.all(
-      questionnaires.value.map(async (questionnaire) => {
-        const questionResponse = await fetch(
-          `http://127.0.0.1:5000/api/questionnaire/${questionnaire.id}/questions`
-        );
-        const questionData = await questionResponse.json();
-        questionnaire.questions = questionData;
-      })
-    );
+    questionnaires.value = data;
+    questionnaires.value.forEach(async (questionnaire) => {
+      const response = await fetch(`${requete}/${questionnaire.id}/questions`);
+      if (!response.ok) {
+        console.error("Erreur lors du chargement des questions du questionnaire", response.statusText);
+        return;
+      }
+      const data = await response.json();
+      questionnaire.questions = data;
+    });
   } catch (error) {
-    console.error("Erreur lors du chargement des questionnaires :", error);
+    console.error("Erreur lors du chargement des questionnaires:", error);
   }
 };
+
 
 onMounted(loadQuestionnaires);
 </script>

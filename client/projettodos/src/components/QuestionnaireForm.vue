@@ -13,30 +13,6 @@
           :id="'question-' + questionIndex"
           required
         />
-
-        <div
-          v-for="(response, responseIndex) in question.responses"
-          :key="responseIndex"
-        >
-          <label :for="'response-' + responseIndex"
-            >Réponse {{ responseIndex + 1 }}:</label
-          >
-          <input
-            v-model="question.responses[responseIndex]"
-            :id="'response-' + responseIndex"
-            required
-          />
-          <button
-            type="button"
-            @click="deleteResponse(question, responseIndex)"
-          >
-            Supprimer
-          </button>
-        </div>
-
-        <button type="button" @click="addResponse(question)">
-          Ajouter une réponse
-        </button>
         <button type="button" @click="deleteQuestion(questionIndex)">
           Supprimer la question
         </button>
@@ -54,32 +30,54 @@ export default {
   data() {
     return {
       title: "",
-      questions: [
-        {
-          question: "",
-          responses: ["", "", "", ""],
-        },
-      ],
+      questions: [{ question: "" }],
     };
   },
   methods: {
-    submitForm() {
-      // Logique pour soumettre le formulaire
+    async submitForm() {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/questionnaires", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: this.title }),
+        });
+
+        const data = await response.json();
+        const questionnaireId = data.id;
+
+        // Création des questions associées au questionnaire
+        this.questions.forEach(async (question) => {
+          const option = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ title: question.question, questionType: "text" }),
+          };
+          const questionResponse = await fetch(`http://127.0.0.1:5000/api/questionnaires/${questionnaireId}/questions`, option);
+
+          if (!questionResponse.ok) {
+            console.error("Erreur lors de la création de la question :", questionResponse.statusText);
+          }
+        })
+
+
+        if (response.ok) {
+          this.$router.push("/");
+        } else {
+          console.error("Erreur lors de la création du questionnaire :", response.statusText);
+        }
+      } catch (error) {
+        console.error("Erreur lors de la création du questionnaire :", error);
+      }
     },
     addQuestion() {
-      this.questions.push({
-        question: "",
-        responses: ["", "", "", ""],
-      });
-    },
-    addResponse(question) {
-      question.responses.push("");
+      this.questions.push({ question: "" });
     },
     deleteQuestion(questionIndex) {
       this.questions.splice(questionIndex, 1);
-    },
-    deleteResponse(question, responseIndex) {
-      question.responses.splice(responseIndex, 1);
     },
     goToHome() {
       this.$router.push("/");

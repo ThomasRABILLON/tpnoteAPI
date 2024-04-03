@@ -28,7 +28,7 @@ const routes = [
     component: Question,
   },
   {
-    path: "/ModifyQuestionnaire/:id",
+    path: "/edit-questionnaire/:id",
     name: "ModifyQuestionnaire",
     component: ModifyQuestionnaire,
   },
