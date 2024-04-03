@@ -80,7 +80,7 @@ class API_Question(Resource):
     
     def put(self, id):
         q = Question.query.get_or_404(id)
-        q.name = request.json['name']
+        q.title = request.json['title']
         db.session.commit()
         return q.to_json()
 
