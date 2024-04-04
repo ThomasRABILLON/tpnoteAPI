@@ -1,13 +1,18 @@
-# tpnoteAPI
+# TP noté - Architecture logiciel
+RABILLON Thomas - YANG Evann
 
-# lancer le server dans le fichier server
+# Pour lancer le server
 
+```bash
+cd server
+pip install -r requirements.txt
 flask run
+```
 
-# Commande pour installer les prérequis pour la vue
+# Pour lancer le client
 
-npm install
-
-# Commande pour lancer la vue dans projettodos
-
+```bash
+cd client/projettodos
+npm install # seulement la première fois
 npm run dev
+```
